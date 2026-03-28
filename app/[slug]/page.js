@@ -5,6 +5,8 @@ import SignatureForm from './SignatureForm'
 import { supabase } from '@/lib/supabase'
 import { Wordmark } from '@/app/components/Logo'
 
+export const dynamic = 'force-dynamic'
+
 export default async function PetitionPage({ params, searchParams }) {
   const { slug } = await params
   const { source = 'direct' } = await searchParams
