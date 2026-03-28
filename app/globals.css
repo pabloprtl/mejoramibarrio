@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  /* ─── Colors ─── */
+  --color-brand:        #B45309;
+  --color-brand-light:  #D97706;
+  --color-cta:          #C2410C;
+  --color-cta-hover:    #9A3412;
+  --color-bg:           #FFFBF5;
+  --color-surface:      #FFFFFF;
+  --color-text:         #111827;
+  --color-muted:        #6B7280;
+  --color-border:       #E5E7EB;
+  --color-success:      #16A34A;
+  --color-error:        #DC2626;
+
+  /* ─── Typography ─── */
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+}
+
+/* Force light mode — no dark mode in MVP */
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
