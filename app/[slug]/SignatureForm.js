@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { signPetition } from './actions'
 import { createCheckoutSession } from './donate'
 
@@ -9,9 +10,11 @@ export default function SignatureForm({ source, slug }) {
   const submittingRef = useRef(false)
   const [copied, setCopied] = useState(false)
   const [qrDataUrl, setQrDataUrl] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     if (!state?.success) return
+    router.refresh()
     import('qrcode').then(QRCode => {
       QRCode.toDataURL(`https://mejoramibarrio.es/${slug}`, {
         width: 256,
