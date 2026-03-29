@@ -15,7 +15,7 @@ export default async function LandingPage({ searchParams }) {
 
   const { data: petitions } = await supabase
     .from('petitions')
-    .select('id, slug, title, description, location, goal_signatures')
+    .select('id, slug, title, description, location, goal_signatures, images')
     .eq('status', 'active')
     .order('created_at', { ascending: false })
 
@@ -69,8 +69,16 @@ export default async function LandingPage({ searchParams }) {
                 <Link
                   key={p.id}
                   href={`/${p.slug}?source=landing`}
-                  className="flex flex-col bg-surface rounded-xl border border-border p-5 hover:shadow-md transition-shadow"
+                  className="flex flex-col bg-surface rounded-xl border border-border overflow-hidden hover:shadow-md transition-shadow"
                 >
+                  {p.images?.[0] && (
+                    <img
+                      src={p.images[0]}
+                      alt=""
+                      className="w-full aspect-video object-cover"
+                    />
+                  )}
+                  <div className="p-5 flex flex-col flex-1">
                   <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">
                     {p.location || 'España'}
                   </p>
@@ -94,6 +102,7 @@ export default async function LandingPage({ searchParams }) {
                   </div>
                   <div className="pt-3 border-t border-border">
                     <span className="text-sm font-semibold text-brand">Firmar →</span>
+                  </div>
                   </div>
                 </Link>
               )

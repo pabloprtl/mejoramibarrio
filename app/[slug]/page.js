@@ -56,6 +56,15 @@ export default async function PetitionPage({ params, searchParams }) {
             {petition.title}
           </h1>
 
+          {/* Hero photo */}
+          {petition.images && petition.images.length > 0 && (
+            <img
+              src={petition.images[0]}
+              alt=""
+              className="w-full aspect-video object-cover rounded-2xl border border-border mb-4 sm:mb-6"
+            />
+          )}
+
           <PetitionInteractive initialCount={count} goal={goal} source={source} slug={slug} />
         </div>
 
@@ -65,10 +74,10 @@ export default async function PetitionPage({ params, searchParams }) {
           <p className="text-base text-muted leading-relaxed">{petition.description}</p>
         </div>
 
-        {/* Photos */}
-        {petition.images && petition.images.length > 0 && (
+        {/* Remaining photos */}
+        {petition.images && petition.images.length > 1 && (
           <div className="grid grid-cols-2 gap-3">
-            {petition.images.map((url, i) => (
+            {petition.images.slice(1).map((url, i) => (
               <img
                 key={i}
                 src={url}
