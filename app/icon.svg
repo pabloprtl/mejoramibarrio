@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Navy rounded background -->
+  <rect width="32" height="32" rx="7" fill="#1B3A5C"/>
+  <!-- White bold M -->
+  <text x="16" y="23" text-anchor="middle"
+        font-family="Arial Black, Arial, sans-serif"
+        font-size="20" font-weight="900" fill="white">M</text>
+  <!-- Orange road-stripe accent (like lane markings) -->
+  <rect x="11" y="26.5" width="10" height="2" rx="1" fill="#E8531A"/>
+</svg>
