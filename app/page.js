@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import { Wordmark } from '@/app/components/Logo'
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+)
 
 export default async function LandingPage({ searchParams }) {
   const { source = 'direct' } = await searchParams
@@ -16,7 +22,7 @@ export default async function LandingPage({ searchParams }) {
   const counts = {}
   if (petitions) {
     for (const p of petitions) {
-      const { count } = await supabase
+      const { count } = await supabaseAdmin
         .from('signatures')
         .select('*', { count: 'exact', head: true })
         .eq('petition_id', p.id)
