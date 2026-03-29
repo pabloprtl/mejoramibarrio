@@ -1,10 +1,17 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import SignatureForm from './SignatureForm'
 
 export default function PetitionInteractive({ initialCount, goal, source, slug }) {
   const [count, setCount] = useState(initialCount)
+
+  useEffect(() => {
+    fetch(`/api/signature-count/${slug}`)
+      .then(r => r.json())
+      .then(data => setCount(data.count))
+      .catch(() => {})
+  }, [slug])
   const progressPct = Math.min(Math.round((count / goal) * 100), 100)
 
   return (
