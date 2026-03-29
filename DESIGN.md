@@ -23,34 +23,33 @@ Five rules that override everything else:
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--color-brand` | `#1B3A5C` | Logo, headings, nav, links, active states |
-| `--color-brand-light` | `#2E5485` | Hover states on brand elements |
-| `--color-cta` | `#E8531A` | Primary CTA button ONLY. Nothing else. |
-| `--color-cta-hover` | `#CF4715` | CTA button hover state |
-| `--color-bg` | `#FAFAF9` | Page background (warm white, not pure white) |
+| `--color-brand` | `#B45309` | Logo, headings, nav, links, active states |
+| `--color-brand-light` | `#D97706` | Hover states on brand elements |
+| `--color-cta` | `#C2410C` | Primary CTA button ONLY. Nothing else. |
+| `--color-cta-hover` | `#9A3412` | CTA button hover state |
+| `--color-bg` | `#FFFBF5` | Page background (warm cream, not pure white) |
 | `--color-surface` | `#FFFFFF` | Cards, form background |
 | `--color-text` | `#111827` | All primary body text |
 | `--color-muted` | `#6B7280` | Secondary text, labels, captions |
 | `--color-border` | `#E5E7EB` | All borders and dividers |
 | `--color-success` | `#16A34A` | Success messages, checkmarks |
 | `--color-error` | `#DC2626` | Error messages and field errors |
-| `--color-progress` | `#1B3A5C` | Signature progress bar fill |
 
 ### Color Psychology
 
-**Brand Navy `#1B3A5C`**
-Used for everything that says "this is official and real." Navy is the color of municipal institutions, newspapers, and trusted services across Spain. It signals authority without coldness. Trainline uses a similar deep blue for exactly this reason. Do not use it for CTAs — it reads as "information", not "action."
+**Brand Amber `#B45309`**
+Used for everything that says "this is local, warm, and trustworthy." Amber sits between official and approachable — it feels like a neighbourhood notice board rather than a government form. Used for the logo, headings, links, and progress bar. Do not use it for CTAs — it reads as "information", not "action."
 
-**CTA Ember `#E8531A`**
-Used exclusively for the primary action button. Warm orange-red creates urgency and warmth simultaneously. It is psychologically associated with taking action (traffic lights, "proceed" buttons) while still feeling human rather than alarming. It passes WCAG AA contrast with white text (≈4.7:1). Critical rule: **this color appears in one place only** — the main CTA button. Overuse destroys its power.
+**CTA Burnt Orange `#C2410C`**
+Used exclusively for the primary action button. Deeper and more urgent than the brand amber — creates clear visual hierarchy. Critical rule: **this color appears in one place only** — the main CTA button. Overuse destroys its power.
 
-**Background `#FAFAF9`**
-Not pure white. This warm off-white reduces eye strain for older users and gives cards (which are pure white) a subtle lift. This is the Stripe/Linear trick — the background isn't white, so white cards feel elevated.
+**Background `#FFFBF5`**
+Warm cream, not pure white. Feels human and local rather than corporate. White cards (`#FFFFFF`) lift off this background naturally.
 
 ### What NOT to do with color
 - Do not use `--color-cta` on text, borders, icons, or backgrounds — only on the primary button
-- Do not add a third brand color "for variety" — restraint is the design
-- Do not use blue links in body text — use `--color-brand` for interactive elements, `--color-text` for static text
+- Do not add extra colors "for variety" — restraint is the design
+- Do not use colored links in body text — use `--color-brand` for interactive elements, `--color-text` for static text
 - Disable dark mode entirely for now (add `color-scheme: light` to html element)
 
 ---
@@ -139,7 +138,7 @@ On mobile (375px), the viewport is roughly 667px tall (iPhone SE — assume wors
 
 ### 5.1 Primary CTA Button
 ```
-Background: --color-cta (#E8531A)
+Background: --color-cta (#C2410C)
 Text: white, 16px, weight 600
 Height: 52px (large touch target)
 Width: 100% on mobile, auto (min 200px) on desktop
@@ -147,7 +146,7 @@ Border radius: 10px
 Border: none
 Padding: 0 24px
 Transition: background-color 150ms ease
-Hover: --color-cta-hover (#CF4715)
+Hover: --color-cta-hover (#9A3412)
 Disabled: opacity-50, cursor-not-allowed
 ```
 **Conversion note:** Full-width buttons on mobile convert significantly better than centered or auto-width. Don't change this to look more "designed."
@@ -181,7 +180,7 @@ Used for: share links, secondary actions. Never used as the primary CTA on any s
 Container height: 8px
 Border radius: 9999px (fully rounded ends)
 Background: --color-border (#E5E7EB)
-Fill: --color-brand (#1B3A5C)
+Fill: --color-brand (#B45309)
 Transition: width 600ms ease
 ```
 **IMPORTANT — always show a goal:**
@@ -368,11 +367,11 @@ This project uses **Tailwind CSS v4**, which has no `tailwind.config.js`. All de
 
 @theme {
   /* ─── Colors ─── */
-  --color-brand:        #1B3A5C;
-  --color-brand-light:  #2E5485;
-  --color-cta:          #E8531A;
-  --color-cta-hover:    #CF4715;
-  --color-bg:           #FAFAF9;
+  --color-brand:        #B45309;
+  --color-brand-light:  #D97706;
+  --color-cta:          #C2410C;
+  --color-cta-hover:    #9A3412;
+  --color-bg:           #FFFBF5;
   --color-surface:      #FFFFFF;
   --color-text:         #111827;
   --color-muted:        #6B7280;
@@ -404,12 +403,12 @@ body {
 
 ### Token usage in Tailwind classes
 Once defined in `@theme`, tokens become Tailwind utilities automatically:
-- `bg-brand` → `background-color: #1B3A5C`
-- `text-cta` → `color: #E8531A`
-- `bg-cta` → `background-color: #E8531A`
+- `bg-brand` → `background-color: #B45309`
+- `text-cta` → `color: #C2410C`
+- `bg-cta` → `background-color: #C2410C`
 - `border-border` → `border-color: #E5E7EB`
 - `text-muted` → `color: #6B7280`
-- `bg-bg` → `background-color: #FAFAF9`
+- `bg-bg` → `background-color: #FFFBF5`
 - `bg-surface` → `background-color: #FFFFFF`
 - `text-success` → `color: #16A34A`
 - `text-error` → `color: #DC2626`
@@ -522,12 +521,12 @@ Note: encode the URL and linebreaks properly in the WhatsApp share link:
 
 See [LOGO.md](LOGO.md) for logo concepts and specifications.
 
-**For MVP:** Use the wordmark only — "MejoraMiBarrio" in Plus Jakarta Sans 800, color `#1B3A5C`. No icon needed to launch.
+**For MVP:** Use the wordmark only — "MejoraMiBarrio" in Plus Jakarta Sans 800, color `#B45309`. No icon needed to launch.
 
 The wordmark can be styled with a subtle color split:
-- "Mejora" in `#1B3A5C` (brand navy)
+- "Mejora" in `#B45309` (brand amber)
 - "Mi" in `#6B7280` (muted gray)
-- "Barrio" in `#1B3A5C` (brand navy)
+- "Barrio" in `#B45309` (brand amber)
 
 Or simply the full name in brand navy, no split. Keep it simple.
 
