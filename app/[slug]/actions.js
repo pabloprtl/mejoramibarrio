@@ -30,6 +30,7 @@ export async function signPetition(prevState, formData) {
 
   if (error) {
     if (error.code === '23514') return { error: 'Debes proporcionar un email o un teléfono.' }
+    if (error.code === '23505') return { error: 'Ya has firmado esta petición con ese email o teléfono.' }
     return { error: 'Error al guardar tu firma. Por favor, inténtalo de nuevo.' }
   }
 
