@@ -3,6 +3,11 @@ import { supabase } from '@/lib/supabase'
 import { createClient } from '@supabase/supabase-js'
 import { Wordmark } from '@/app/components/Logo'
 
+export const metadata = {
+  title: 'Peticiones ciudadanas en tu barrio',
+  description: 'Explora y firma peticiones vecinales en España. Únete a tus vecinos y presiona al ayuntamiento para mejorar tu barrio.',
+}
+
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -122,6 +127,23 @@ export default async function LandingPage({ searchParams }) {
 
 
       </div>
+
+      {petitions && petitions.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Peticiones ciudadanas activas',
+            itemListElement: petitions.map((p, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              url: `https://mejoramibarrio.es/${p.slug}`,
+              name: p.title,
+            })),
+          })}}
+        />
+      )}
     </main>
   )
 }

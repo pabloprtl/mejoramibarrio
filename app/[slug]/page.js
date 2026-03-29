@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import PetitionInteractive from './PetitionInteractive'
 import { supabase } from '@/lib/supabase'
 import { createClient } from '@supabase/supabase-js'
@@ -10,7 +11,45 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 )
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
+
+export async function generateStaticParams() {
+  const { data } = await supabase
+    .from('petitions')
+    .select('slug')
+    .eq('status', 'active')
+  return (data || []).map(p => ({ slug: p.slug }))
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params
+  const { data: petition } = await supabase
+    .from('petitions')
+    .select('title, description, location, images')
+    .eq('slug', slug)
+    .eq('status', 'active')
+    .single()
+
+  if (!petition) return {}
+
+  const description = petition.description?.slice(0, 160)
+  const locationSuffix = petition.location ? ` — ${petition.location}` : ''
+
+  return {
+    title: `${petition.title}${locationSuffix}`,
+    description,
+    openGraph: {
+      title: petition.title,
+      description,
+      url: `https://mejoramibarrio.es/${slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: petition.title,
+      description,
+    },
+  }
+}
 
 export default async function PetitionPage({ params, searchParams }) {
   const { slug } = await params
@@ -58,9 +97,12 @@ export default async function PetitionPage({ params, searchParams }) {
 
           {/* Hero photo */}
           {petition.images && petition.images.length > 0 && (
-            <img
+            <Image
               src={petition.images[0]}
-              alt=""
+              alt={petition.title}
+              width={800}
+              height={450}
+              priority
               className="w-full aspect-video object-cover rounded-2xl border border-border mb-4 sm:mb-6"
             />
           )}
@@ -81,12 +123,34 @@ export default async function PetitionPage({ params, searchParams }) {
               <img
                 key={i}
                 src={url}
-                alt=""
+                alt={`Foto ${i + 2}: ${petition.title}`}
                 className="w-full aspect-video object-cover rounded-xl border border-border"
               />
             ))}
           </div>
         )}
+
+        {/* Structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: petition.title,
+            description: petition.description,
+            url: `https://mejoramibarrio.es/${slug}`,
+            inLanguage: 'es',
+            breadcrumb: {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'MejoraMiBarrio', item: 'https://mejoramibarrio.es' },
+                { '@type': 'ListItem', position: 2, name: petition.title, item: `https://mejoramibarrio.es/${slug}` },
+              ],
+            },
+            about: { '@type': 'Place', name: petition.location || 'España' },
+            publisher: { '@type': 'Organization', name: 'MejoraMiBarrio', url: 'https://mejoramibarrio.es' },
+          })}}
+        />
 
         {/* Privacy */}
         <p className="text-xs text-muted leading-relaxed pb-8">
