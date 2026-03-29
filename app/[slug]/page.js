@@ -2,7 +2,13 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import PetitionInteractive from './PetitionInteractive'
 import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import { Wordmark } from '@/app/components/Logo'
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+)
 
 export const dynamic = 'force-dynamic'
 
@@ -21,7 +27,7 @@ export default async function PetitionPage({ params, searchParams }) {
 
   await supabase.from('visits').insert({ petition_id: petition.id, source })
 
-  const { count: signatureCount } = await supabase
+  const { count: signatureCount } = await supabaseAdmin
     .from('signatures')
     .select('*', { count: 'exact', head: true })
     .eq('petition_id', petition.id)
